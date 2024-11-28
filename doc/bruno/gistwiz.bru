@@ -1,0 +1,19 @@
+meta {
+  name: QuickSearch
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://{{host}}/qs/wilmoore?query=Travel Hot Springs Arizona
+  body: none
+  auth: bearer
+}
+
+params:query {
+  query: Travel Hot Springs Arizona
+}
+
+auth:bearer {
+  token: {{process.env.GIST_API_TOKEN}}
+}
