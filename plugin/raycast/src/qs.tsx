@@ -17,7 +17,7 @@ export default function Command() {
     <List
       isLoading={isLoading}
       onSearchTextChange={setSearchText}
-      searchBarPlaceholder="Search gists..."
+      searchBarPlaceholder="Gist QuickSearch"
       throttle
     >
       <List.Section title="Results" subtitle={data?.length + ""}>

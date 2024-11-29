@@ -13,8 +13,8 @@
   "commands": [
     {
       "name": "qs",
-      "title": "QuickSearch",
-      "description": "GistWiz GitHub Gist QuickSearch",
+      "title": "GistWiz QuickSearch",
+      "description": "GistWiz QuickSearch",
       "mode": "view",
       "preferences": [
         {
