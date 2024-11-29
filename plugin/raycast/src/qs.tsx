@@ -1,4 +1,4 @@
-import { ActionPanel, Action, List } from '@raycast/api'
+import { ActionPanel, Action, getPreferenceValues, List } from '@raycast/api'
 import { useFetch } from '@raycast/utils'
 import { useState } from 'react'
 import { URLSearchParams } from 'node:url'
@@ -11,7 +11,7 @@ interface GistAutocompleteItem {
 
 export default function Command() {
   const [searchText, setSearchText] = useState('')
-  const { data, isLoading } = useFetch('http://localhost:3721/qs/wilmoore?' + new URLSearchParams({ query: searchText.length === 0 ? 'Travel Hot Springs Arizona' : searchText }), { parseResponse: parseFetchResponse })
+  const { data, isLoading } = useFetch(`http://${getPreferenceValues().host}/qs/${getPreferenceValues().username}?` + new URLSearchParams({ query: searchText.length === 0 ? 'Travel Hot Springs Arizona' : searchText }), { parseResponse: parseFetchResponse })
 
   return (
     <List
