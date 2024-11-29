@@ -11,7 +11,7 @@ interface GistAutocompleteItem {
 
 export default function Command() {
   const [searchText, setSearchText] = useState('')
-  const { data, isLoading } = useFetch(`http://${getPreferenceValues().host}/qs/${getPreferenceValues().username}?` + new URLSearchParams({ query: searchText.length === 0 ? 'Travel Hot Springs Arizona' : searchText }), { parseResponse: parseFetchResponse })
+  const { data, isLoading } = useFetch(`http://${getPreferenceValues().host}/qs/${getPreferenceValues().username}?` + new URLSearchParams({ query: searchText.length === 0 ? 'Business Ideas' : searchText }), { parseResponse: parseFetchResponse })
 
   return (
     <List
