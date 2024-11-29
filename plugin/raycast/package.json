@@ -20,7 +20,7 @@
         {
           "title": "token",
           "name": "token",
-          "type": "textfield",
+          "type": "password",
           "label": "GitHub Personal Access Token",
           "required": true,
           "description": "GitHub Personal Access Token",
