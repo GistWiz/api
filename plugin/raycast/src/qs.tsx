@@ -1,7 +1,13 @@
-import { ActionPanel, Action, getPreferenceValues, List } from '@raycast/api'
-import { useFetch } from '@raycast/utils'
-import { useState } from 'react'
-import { URLSearchParams } from 'node:url'
+import { ActionPanel, Action, getPreferenceValues, List } from "@raycast/api"
+import { useFetch } from "@raycast/utils"
+import { useState, useEffect, useMemo } from "react"
+import { URLSearchParams } from "node:url"
+import fetch from "node-fetch"
+
+interface Preferences {
+  host: string;
+  token: string;
+}
 
 interface GistAutocompleteItem {
   id: string;
@@ -10,18 +16,51 @@ interface GistAutocompleteItem {
 }
 
 export default function Command() {
-  const [searchText, setSearchText] = useState('')
-  const { data, isLoading } = useFetch(`http://${getPreferenceValues().host}/qs/${getPreferenceValues().username}?` + new URLSearchParams({ query: searchText.length === 0 ? 'Business Ideas' : searchText }), { parseResponse: parseFetchResponse })
+  const preferences = getPreferenceValues<Preferences>()
+  const [searchText, setSearchText] = useState("")
+  const [username, setUsername] = useState<string | null>(null)
+
+  // Construct the API query URL using useMemo
+  const queryUrl = useMemo(() => {
+    if (!username) return null
+    return `http://${preferences.host}/qs/${username}?` +
+      new URLSearchParams({ query: searchText.length === 0 ? "Business Ideas" : searchText })
+  }, [preferences.host, username, searchText])
+
+  const { data, isLoading } = useFetch(queryUrl ?? "", {
+    parseResponse: parseFetchResponse,
+    execute: !!queryUrl,
+  });
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const response = await fetch("https://api.github.com/user", {
+          headers: { Authorization: `Bearer ${preferences.token}` },
+        });
+        if (!response.ok) {
+          throw new Error(`Failed to fetch username: ${response.statusText}`)
+        }
+        const user = await response.json()
+        setUsername(user.login)
+      } catch (error) {
+        console.error("Error fetching GitHub username:", error)
+      }
+    };
+    fetchUsername()
+  }, [preferences.token])
 
   return (
     <List
-      isLoading={isLoading}
+      isLoading={isLoading || username === null}
       onSearchTextChange={setSearchText}
       searchBarPlaceholder="Gist QuickSearch"
       throttle
     >
       <List.Section title="Results" subtitle={data?.length + ""}>
-        {data?.map((gist) => <SearchListItem key={gist.id} gist={gist} />)}
+        {data?.map((gist) => (
+          <SearchListItem key={gist.id} gist={gist} />
+        ))}
       </List.Section>
     </List>
   )
@@ -45,7 +84,7 @@ function SearchListItem({ gist }: { gist: GistAutocompleteItem }) {
 
 /** Parse the response from the fetch query into something we can display */
 async function parseFetchResponse(response: Response) {
-  const json = (await response.json()) as { id: string; description: string; url: string; }[] | { code: string; message: string }
+  const json = (await response.json()) as { id: string; description: string; url: string }[] | { code: string; message: string }
 
   if (!response.ok || "message" in json) {
     throw new Error("message" in json ? json.message : response.statusText)

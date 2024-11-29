@@ -18,13 +18,13 @@
       "mode": "view",
       "preferences": [
         {
-          "title": "username",
-          "name": "username",
+          "title": "token",
+          "name": "token",
           "type": "textfield",
-          "label": "Username",
+          "label": "GitHub Personal Access Token",
           "required": true,
-          "description": "Your GitHub Username",
-          "default": "gistwiz-demo"
+          "description": "GitHub Personal Access Token",
+          "default": ""
         },
         {
           "title": "host",
@@ -39,8 +39,10 @@
     }
   ],
   "dependencies": {
+    "@octokit/rest": "^21.0.2",
     "@raycast/api": "^1.84.3",
     "@raycast/utils": "^1.17.0",
+    "node-fetch": "^3.3.2",
     "rss-parser": "^3.13.0"
   },
   "devDependencies": {
