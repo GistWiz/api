@@ -1,8 +1,7 @@
 import { ActionPanel, Action, getPreferenceValues, List } from "@raycast/api"
 import { useFetch } from "@raycast/utils"
-import { useState, useEffect, useMemo } from "react"
+import { useState, useMemo } from "react"
 import { URLSearchParams } from "node:url"
-import fetch from "node-fetch"
 
 interface Preferences {
   host: string;
@@ -18,41 +17,20 @@ interface GistAutocompleteItem {
 export default function Command() {
   const preferences = getPreferenceValues<Preferences>()
   const [searchText, setSearchText] = useState("")
-  const [username, setUsername] = useState<string | null>(null)
 
-  // Construct the API query URL using useMemo
   const queryUrl = useMemo(() => {
-    if (!username) return null
-    return `http://${preferences.host}/qs/${username}?` +
-      new URLSearchParams({ query: searchText.length === 0 ? "Business Ideas" : searchText })
-  }, [preferences.host, username, searchText])
+    return `http://${preferences.host}/qs?` + new URLSearchParams({ query: searchText.length === 0 ? "Business Ideas" : searchText })
+  }, [preferences.host])
 
   const { data, isLoading } = useFetch(queryUrl ?? "", {
     parseResponse: parseFetchResponse,
     execute: !!queryUrl,
+    headers: { Authorization: `Bearer ${preferences.token}` },
   });
-
-  useEffect(() => {
-    const fetchUsername = async () => {
-      try {
-        const response = await fetch("https://api.github.com/user", {
-          headers: { Authorization: `Bearer ${preferences.token}` },
-        });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch username: ${response.statusText}`)
-        }
-        const user = await response.json()
-        setUsername(user.login)
-      } catch (error) {
-        console.error("Error fetching GitHub username:", error)
-      }
-    };
-    fetchUsername()
-  }, [preferences.token])
 
   return (
     <List
-      isLoading={isLoading || username === null}
+      isLoading={isLoading}
       onSearchTextChange={setSearchText}
       searchBarPlaceholder="Gist QuickSearch"
       throttle
