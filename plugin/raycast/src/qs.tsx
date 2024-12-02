@@ -20,7 +20,7 @@ export default function Command() {
 
   const queryUrl = useMemo(() => {
     return `http://${preferences.host}/qs?` + new URLSearchParams({ query: searchText.length === 0 ? "Business Ideas" : searchText })
-  }, [preferences.host])
+  }, [preferences.host, searchText])
 
   const { data, isLoading } = useFetch(queryUrl ?? "", {
     parseResponse: parseFetchResponse,
