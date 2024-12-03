@@ -1,9 +1,10 @@
-import { GistAutocompleteItem, Preferences } from './quicksearch.types'
+import { Preferences } from './quicksearch.types'
 import { useQuickSearch } from './quicksearch'
 import { parseResponse } from './response'
 import { useState } from 'react'
-import { ActionPanel, Action, getPreferenceValues, List } from '@raycast/api'
+import { getPreferenceValues, List } from '@raycast/api'
 import { useFetch } from '@raycast/utils'
+import { SearchListItem } from './SearchList'
 
 export default function Command() {
   const preferences = getPreferenceValues<Preferences>()
@@ -17,7 +18,6 @@ export default function Command() {
     }
   })
 
-  // debugging output
   console.debug({ preferences, quickSearchUrl, data, isLoading })
 
   return (
@@ -33,21 +33,5 @@ export default function Command() {
         ))}
       </List.Section>
     </List>
-  )
-}
-
-function SearchListItem({ gist }: { gist: GistAutocompleteItem }) {
-  return (
-    <List.Item
-      key={gist.id}
-      title={gist.description}
-      actions={
-        <ActionPanel>
-          <ActionPanel.Section>
-            <Action.OpenInBrowser title="Open in Browser" url={gist.url} />
-          </ActionPanel.Section>
-        </ActionPanel>
-      }
-    />
   )
 }
