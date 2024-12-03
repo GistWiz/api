@@ -1,11 +1,11 @@
 import { getPreferenceValues, List } from '@raycast/api'
 
 import { parseResponse } from '../lib/response/parser'
-import { Preferences } from '../quicksearch.types'
+import { Preferences } from '../lib/types'
 import { SearchListItem } from './SearchListItem'
 
 import { useFetch } from '@raycast/utils'
-import { useQuickSearch } from '../quicksearch'
+import { useQuickSearch } from '../lib/quicksearch'
 import { useState } from 'react'
 
 export const SearchList = () => {

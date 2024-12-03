@@ -1,4 +1,4 @@
-import { GistAutocompleteItem } from '../../quicksearch.types'
+import { GistAutocompleteItem } from '../types'
 
 export const parseResponse = async function(response: Response) {
   const json = (await response.json()) as { id: string; description: string; url: string }[] | { code: string; message: string }
