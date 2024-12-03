@@ -40,18 +40,18 @@
   ],
   "dependencies": {
     "@octokit/rest": "^21.0.2",
-    "@raycast/api": "^1.84.3",
-    "@raycast/utils": "^1.17.0",
+    "@raycast/api": "^1.86.1",
+    "@raycast/utils": "^1.18.1",
     "node-fetch": "^3.3.2",
     "rss-parser": "^3.13.0"
   },
   "devDependencies": {
-    "@raycast/eslint-config": "^1.0.11",
+    "@raycast/eslint-config": "latest",
     "@types/node": "20.8.10",
     "@types/react": "18.3.3",
-    "eslint": "^8.57.0",
-    "prettier": "^3.3.3",
-    "typescript": "^5.4.5"
+    "eslint": "latest",
+    "prettier": "^3.4.1",
+    "typescript": "^5.7.2"
   },
   "scripts": {
     "build": "ray build",

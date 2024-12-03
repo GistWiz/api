@@ -1,30 +1,20 @@
+import { GistAutocompleteItem, Preferences } from "./types"
+
 import { ActionPanel, Action, getPreferenceValues, List } from "@raycast/api"
 import { useFetch } from "@raycast/utils"
 import { useState, useMemo } from "react"
 import { URLSearchParams } from "node:url"
 
-interface Preferences {
-  host: string;
-  token: string;
-}
-
-interface GistAutocompleteItem {
-  id: string;
-  description: string;
-  url: string;
-}
-
 export default function Command() {
   const preferences = getPreferenceValues<Preferences>()
   const [searchText, setSearchText] = useState("")
 
-  const queryUrl = useMemo(() => {
-    return `http://${preferences.host}/qs?` + new URLSearchParams({ query: searchText.length === 0 ? "Business Ideas" : searchText })
-  }, [preferences.host, searchText])
+  const generateUrl = (host: string, searchText: string) => `http://${host}/qs?${new URLSearchParams({ query: searchText.length === 0 ? "Business Ideas" : searchText })}`
+  const quicksearchUrl = useMemo(() => generateUrl(preferences.host, searchText), [preferences.host, searchText])
 
-  const { data, isLoading } = useFetch(queryUrl ?? "", {
+  const { data, isLoading } = useFetch(quicksearchUrl ?? "", {
     parseResponse: parseFetchResponse,
-    execute: !!queryUrl,
+    execute: !!quicksearchUrl,
     headers: { Authorization: `Bearer ${preferences.token}` },
   });
 
