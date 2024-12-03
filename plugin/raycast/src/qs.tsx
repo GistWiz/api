@@ -1,27 +1,26 @@
-import { GistAutocompleteItem, Preferences } from "./types"
-
-import { ActionPanel, Action, getPreferenceValues, List } from "@raycast/api"
-import { useFetch } from "@raycast/utils"
-import { useState, useMemo } from "react"
-import { URLSearchParams } from "node:url"
+import { GistAutocompleteItem, Preferences } from './quicksearch.types'
+import { useQuickSearch } from './quicksearch'
+import { parseResponse } from './response'
+import { useState } from 'react'
+import { ActionPanel, Action, getPreferenceValues, List } from '@raycast/api'
+import { useFetch } from '@raycast/utils'
 
 export default function Command() {
   const preferences = getPreferenceValues<Preferences>()
-  const [searchText, setSearchText] = useState("")
-
-  const generateUrl = (host: string, searchText: string) => `http://${host}/qs?${new URLSearchParams({ query: searchText.length === 0 ? "Business Ideas" : searchText })}`
-  const quicksearchUrl = useMemo(() => generateUrl(preferences.host, searchText), [preferences.host, searchText])
-
-  const { data, isLoading } = useFetch(quicksearchUrl ?? "", {
-    parseResponse: parseFetchResponse,
-    execute: !!quicksearchUrl,
-    headers: { Authorization: `Bearer ${preferences.token}` },
-  });
+  const [ query, setQuery ] = useState("")
+  const { quickSearchUrl } = useQuickSearch({ host: preferences.host, query })
+  const { data, isLoading } = useFetch(quickSearchUrl, {
+    parseResponse,
+    execute: Boolean(quickSearchUrl),
+    headers: {
+      Authorization: `Bearer ${preferences.token}`
+    }
+  })
 
   return (
     <List
       isLoading={isLoading}
-      onSearchTextChange={setSearchText}
+      onSearchTextChange={setQuery}
       searchBarPlaceholder="Gist QuickSearch"
       throttle
     >
@@ -48,21 +47,4 @@ function SearchListItem({ gist }: { gist: GistAutocompleteItem }) {
       }
     />
   )
-}
-
-/** Parse the response from the fetch query into something we can display */
-async function parseFetchResponse(response: Response) {
-  const json = (await response.json()) as { id: string; description: string; url: string }[] | { code: string; message: string }
-
-  if (!response.ok || "message" in json) {
-    throw new Error("message" in json ? json.message : response.statusText)
-  }
-
-  return json.map((gist) => {
-    return {
-      id: gist.id,
-      description: gist.description,
-      url: gist.url,
-    } as GistAutocompleteItem
-  })
 }
