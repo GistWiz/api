@@ -1,4 +1,4 @@
-import { GistAutocompleteItem } from './quicksearch.types'
+import { GistAutocompleteItem } from '../quicksearch.types'
 import { ActionPanel, Action, List } from '@raycast/api'
 
 export const SearchListItem = ({ gist }: { gist: GistAutocompleteItem }) => {
