@@ -4,7 +4,7 @@ import { parseResponse } from './response'
 import { useState } from 'react'
 import { getPreferenceValues, List } from '@raycast/api'
 import { useFetch } from '@raycast/utils'
-import { SearchListItem } from './SearchListItem'
+import { SearchList } from './SearchList'
 
 export default function Command() {
   const preferences = getPreferenceValues<Preferences>()
@@ -20,18 +20,5 @@ export default function Command() {
 
   console.debug({ preferences, quickSearchUrl, data, isLoading })
 
-  return (
-    <List
-      isLoading={isLoading}
-      onSearchTextChange={setQuery}
-      searchBarPlaceholder="Gist QuickSearch"
-      throttle
-    >
-      <List.Section title='Gists' subtitle={data?.length + ""}>
-        {data?.map((gist) => (
-          <SearchListItem key={gist.id} gist={gist} />
-        ))}
-      </List.Section>
-    </List>
-  )
+  return <SearchList query={query} setQuery={setQuery} data={data} isLoading={isLoading} />
 }
