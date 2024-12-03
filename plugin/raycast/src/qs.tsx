@@ -17,6 +17,9 @@ export default function Command() {
     }
   })
 
+  // debugging output
+  console.debug({ preferences, quickSearchUrl, data, isLoading })
+
   return (
     <List
       isLoading={isLoading}
