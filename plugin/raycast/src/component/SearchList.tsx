@@ -7,12 +7,13 @@ import { SearchListItem } from './SearchListItem'
 import { useFetch } from '@raycast/utils'
 import { useQuickSearch } from '../lib/quicksearch'
 import { useEffect, useState } from 'react'
+const pkg = require('../../package.json')
 
 export const SearchList = () => {
   const preferences = getPreferenceValues<Preferences>()
 
   const [ query, setQuery ] = useState<string>(preferences.defaultTerm)
-  const { quickSearchUrl } = useQuickSearch({ host: preferences.host, query })
+  const { quickSearchUrl } = useQuickSearch({ host: preferences.host || pkg.commands[0].preferences[1].default, query })
 
   const { data, isLoading } = useFetch(quickSearchUrl, {
     parseResponse,
@@ -34,7 +35,7 @@ export const SearchList = () => {
       }
     }
 
-    if (preferences.autopaste) autopaste()
+    preferences.autopaste && autopaste()
   }, []);
 
   return (
