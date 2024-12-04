@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 export const SearchList = () => {
   const preferences = getPreferenceValues<Preferences>()
 
-  const [ query, setQuery ] = useState<string>('')
+  const [ query, setQuery ] = useState<string>(preferences.defaultTerm)
   const { quickSearchUrl } = useQuickSearch({ host: preferences.host, query })
 
   const { data, isLoading } = useFetch(quickSearchUrl, {
@@ -23,18 +23,18 @@ export const SearchList = () => {
   console.debug({ preferences, quickSearchUrl, data, isLoading })
 
   useEffect(() => {
-    const fetchClipboardContent = async () => {
+    const autopaste = async () => {
       try {
-        const clipboardText = await Clipboard.readText();
+        const clipboardText = await Clipboard.readText()
         if (clipboardText) {
           setQuery(clipboardText); // Set the clipboard content as the initial query
         }
       } catch (error) {
-        console.error('Failed to read clipboard content:', error);
+        console.error('Failed to read clipboard content:', error)
       }
-    };
+    }
 
-    fetchClipboardContent();
+    if (preferences.autopaste) autopaste()
   }, []);
 
   return (

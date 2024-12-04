@@ -34,6 +34,24 @@
           "required": false,
           "description": "QuickSearch Server Hostname",
           "default": "api.gistwiz.io"
+        },
+        {
+          "title": "autopaste",
+          "name": "autopaste",
+          "type": "checkbox",
+          "label": "Auto Paste Clipboard Contents",
+          "required": false,
+          "description": "Auto Paste Clipboard Contents",
+          "default": false
+        },
+        {
+          "title": "defaultTerm",
+          "name": "defaultTerm",
+          "type": "textfield",
+          "label": "Default Auto-Complete Term",
+          "required": false,
+          "description": "Default Auto-Complete Term",
+          "default": ""
         }
       ]
     }
