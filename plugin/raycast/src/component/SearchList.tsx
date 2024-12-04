@@ -45,7 +45,7 @@ export const SearchList = () => {
       searchBarPlaceholder='Gist QuickSearch'
       throttle
     >
-      <List.Section title='Total Gists' subtitle={`${Number((data || []).length)}`}>
+      <List.Section title='results' subtitle={`${Number((data || []).length)}`}>
         {(data || []).map((gist) => <SearchListItem key={gist.id} gist={gist} />)}
       </List.Section>
     </List>
