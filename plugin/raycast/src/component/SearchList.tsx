@@ -1,4 +1,4 @@
-import { getPreferenceValues, List } from '@raycast/api'
+import { Clipboard, getPreferenceValues, List } from '@raycast/api'
 
 import { parseResponse } from '../lib/response/parser'
 import { Preferences } from '../lib/types'
@@ -6,7 +6,7 @@ import { SearchListItem } from './SearchListItem'
 
 import { useFetch } from '@raycast/utils'
 import { useQuickSearch } from '../lib/quicksearch'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const SearchList = () => {
   const preferences = getPreferenceValues<Preferences>()
@@ -22,9 +22,25 @@ export const SearchList = () => {
 
   console.debug({ preferences, quickSearchUrl, data, isLoading })
 
+  useEffect(() => {
+    const fetchClipboardContent = async () => {
+      try {
+        const clipboardText = await Clipboard.readText();
+        if (clipboardText) {
+          setQuery(clipboardText); // Set the clipboard content as the initial query
+        }
+      } catch (error) {
+        console.error('Failed to read clipboard content:', error);
+      }
+    };
+
+    fetchClipboardContent();
+  }, []);
+
   return (
     <List
       isLoading={isLoading}
+      searchText={query}
       onSearchTextChange={setQuery}
       searchBarPlaceholder='Gist QuickSearch'
       throttle
