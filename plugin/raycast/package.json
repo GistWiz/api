@@ -33,8 +33,8 @@
           "label": "Host",
           "required": false,
           "description": "QuickSearch Server Hostname",
-          "default": "api.gistwiz.app",
-          "placeholder": "api.gistwiz.app"
+          "default": "api.gistwiz.app:3721",
+          "placeholder": "api.gistwiz.app:3721"
         },
         {
           "title": "autopaste",
