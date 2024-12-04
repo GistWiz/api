@@ -15,13 +15,13 @@ export const SearchList = () => {
   const [ query, setQuery ] = useState<string>(preferences.defaultTerm)
   const { quickSearchUrl } = useQuickSearch({ host: preferences.host || pkg.commands[0].preferences[1].default, query })
 
-  const { data, isLoading } = useFetch(quickSearchUrl, {
+  let { data, isLoading, error } = useFetch(quickSearchUrl, {
     parseResponse,
     execute: Boolean(quickSearchUrl),
     headers: { Authorization: `Bearer ${preferences.token}` }
   })
 
-  console.debug({ preferences, quickSearchUrl, data, isLoading })
+  console.debug({ preferences, quickSearchUrl, data, error, isLoading })
 
   useEffect(() => {
     const autopaste = async () => {
