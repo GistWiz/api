@@ -2,9 +2,9 @@ import { Clipboard, getPreferenceValues } from '@raycast/api'
 import { useFetch } from '@raycast/utils'
 import { useEffect, useMemo, useState } from 'react'
 import { URLSearchParams } from 'node:url'
-import { parseResponse } from '../lib/qs/response/parser'
-import { Preferences } from '../lib/raycast/command/preferences'
-import packageJson from '../../package.json'
+import { parseResponse } from './http/response/parser'
+import { Preferences } from '../../lib/raycast/command/preferences'
+import packageJson from '../../../package.json'
 
 export const useSearchList = () => {
   const preferences = getPreferenceValues<Preferences>()

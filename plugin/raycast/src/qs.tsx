@@ -1,5 +1,5 @@
-import { SearchList } from './component/SearchList'
+import { QuickSearch } from './component/QuickSearch/QuickSearch'
 
-const Command = () => <SearchList />
+const Command = () => <QuickSearch />
 
 export default Command

@@ -1,12 +1,7 @@
 import { ActionPanel, Action, List } from '@raycast/api'
+import { GistQuickSearchItem } from './types'
 
-export interface GistAutocompleteItem {
-  id: string;
-  description: string;
-  url: string;
-}
-
-export const SearchListItem = ({ gist }: { gist: GistAutocompleteItem }) => {
+export const SearchListItem = ({ gist }: { gist: GistQuickSearchItem }) => {
   return (
     <List.Item
       key={gist.id}
