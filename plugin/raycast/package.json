@@ -14,11 +14,11 @@
     {
       "name": "qs",
       "title": "GistWiz QuickSearch",
-      "description": "GistWiz QuickSearch",
+      "description": "GistWiz QuickSearch for GitHub Gists",
       "mode": "view",
       "preferences": [
         {
-          "title": "token",
+          "title": "GitHub Personal Access Token (scope: `gist.read`)",
           "name": "token",
           "type": "password",
           "label": "GitHub Personal Access Token",
@@ -27,26 +27,26 @@
           "default": ""
         },
         {
-          "title": "host",
+          "title": "Server Host",
           "name": "host",
           "type": "textfield",
           "label": "Host",
           "required": false,
           "description": "QuickSearch Server Hostname",
           "default": "api.gistwiz.app:3721",
-          "placeholder": "api.gistwiz.app:3721"
+          "placeholder": "api.gistwiz.app"
         },
         {
-          "title": "autopaste",
+          "title": "Auto Paste Clipboard Contents",
           "name": "autopaste",
           "type": "checkbox",
-          "label": "Auto Paste Clipboard Contents",
+          "label": "enabled?",
           "required": false,
           "description": "Auto Paste Clipboard Contents",
           "default": false
         },
         {
-          "title": "defaultTerm",
+          "title": "Default Auto-Complete Term",
           "name": "defaultTerm",
           "type": "textfield",
           "label": "Default Auto-Complete Term",

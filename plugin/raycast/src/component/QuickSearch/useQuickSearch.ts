@@ -8,8 +8,8 @@ import packageJson from '../../../package.json'
 
 export const useSearchList = () => {
   const preferences = getPreferenceValues<Preferences>()
-  const host = String(preferences.host || packageJson.commands[0].preferences[1].default)
 
+  const host = String(preferences.host || packageJson.commands[0].preferences[1].default)
   const [query, setQuery] = useState<string>(preferences.defaultTerm)
 
   const createUrl = (host: string, query: string) =>
@@ -35,6 +35,8 @@ export const useSearchList = () => {
 
     preferences.autopaste && autopaste()
   }, [preferences.autopaste])
+
+  console.debug({ url, query, data, isLoading, error })
 
   return {
     query,
