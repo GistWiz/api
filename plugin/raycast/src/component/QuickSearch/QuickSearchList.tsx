@@ -3,23 +3,23 @@ import { QuickSearchResults } from './QuickSearchResults'
 import { GistQuickSearchItem } from './types'
 
 interface QuickSearchListProps {
-  query: string
-  setQuery: (query: string) => void
+  term: string
+  setTerm: (term: string) => void
   data: GistQuickSearchItem[] | undefined
   isLoading: boolean
 }
 
 export const QuickSearchList = ({
-  query,
-  setQuery,
+  term,
+  setTerm,
   data,
   isLoading,
 }: QuickSearchListProps) => {
   return (
     <List
       isLoading={isLoading}
-      searchText={query}
-      onSearchTextChange={setQuery}
+      searchText={term}
+      onSearchTextChange={setTerm}
       searchBarPlaceholder="Gist QuickSearch"
       throttle
     >
