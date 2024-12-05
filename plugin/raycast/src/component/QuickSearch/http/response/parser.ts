@@ -1,7 +1,7 @@
 import { GistQuickSearchItem } from '../../types'
 
 export const parseResponse = async function(response: Response) {
-  const json = (await response.json()) as { id: string; description: string; url: string }[] | { code: string; message: string }
+  const json = (await response.json()) as GistQuickSearchItem[] | { code: string; message: string }
 
   if (!response.ok || "message" in json) {
     throw new Error("message" in json ? json.message : response.statusText)
@@ -11,7 +11,7 @@ export const parseResponse = async function(response: Response) {
     return {
       id: gist.id,
       description: gist.description,
-      url: gist.url,
-    } as GistQuickSearchItem
+      url: gist.url
+    }
   })
 }
