@@ -27,17 +27,13 @@ export const useSearchList = () => {
     const autopaste = async () => {
       try {
         const clipboardText = await Clipboard.readText()
-        if (clipboardText) {
-          setQuery(clipboardText) // Set the clipboard content as the initial query
-        }
+        clipboardText && setQuery(clipboardText)
       } catch (error) {
         console.error('Failed to read clipboard content:', error)
       }
     }
 
-    if (preferences.autopaste) {
-      autopaste()
-    }
+    preferences.autopaste && autopaste()
   }, [preferences.autopaste])
 
   return {

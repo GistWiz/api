@@ -1,13 +1,13 @@
 import packageJson from '../../../../package.json'
 
-// Define the structure for preferences
+// define preference schema
 export type Preference = {
   name: string;
   type: 'textfield' | 'password' | 'checkbox';
   default: string | boolean;
-};
+}
 
-// Helper function to cast and validate preferences
+// cast and validate preferences (invalid preferences are excluded)
 function castPreference(pref: any): Preference | null {
   if (
     typeof pref.name === 'string' &&
@@ -16,21 +16,21 @@ function castPreference(pref: any): Preference | null {
   ) {
     return pref as Preference;
   }
-  return null; // Invalid preferences are excluded
+  return null;
 }
 
-// Extract and cast preferences
+// extract and cast preferences (filtering out invalid preferences)
 const rawPreferences = packageJson.commands[0]?.preferences || [];
 export const preferencesArray: Preference[] = rawPreferences
-  .map(castPreference) // Cast each item to Preference
-  .filter((pref): pref is Preference => pref !== null); // Filter out invalid ones
+  .map(castPreference)
+  .filter((pref): pref is Preference => pref !== null);
 
-// Define the Preferences interface dynamically
+// define Preferences interface dynamically
 export type Preferences = {
   [P in Preference['name']]: Preference['type'] extends 'checkbox' ? boolean : string;
-};
+}
 
-// Create a function to load preferences with defaults
+// load preferences with defaults
 export function loadPreferences(): Preferences {
   const preferences = {} as Preferences;
 
@@ -42,5 +42,4 @@ export function loadPreferences(): Preferences {
   return preferences;
 }
 
-// Export the defaults
-export const defaultPreferences: Preferences = loadPreferences();
+export const defaultPreferences: Preferences = loadPreferences()

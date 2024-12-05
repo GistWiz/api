@@ -1,6 +1,6 @@
 import { GistQuickSearchItem } from '../../types'
 
-export const parseResponse = async function(response: Response) {
+export const parseResponse = async (response: Response) =>{
   const json = (await response.json()) as GistQuickSearchItem[] | { code: string; message: string }
 
   if (!response.ok || "message" in json) {
