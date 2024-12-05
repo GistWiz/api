@@ -1,5 +1,10 @@
-import { GistAutocompleteItem } from '../lib/types'
 import { ActionPanel, Action, List } from '@raycast/api'
+
+export interface GistAutocompleteItem {
+  id: string;
+  description: string;
+  url: string;
+}
 
 export const SearchListItem = ({ gist }: { gist: GistAutocompleteItem }) => {
   return (
