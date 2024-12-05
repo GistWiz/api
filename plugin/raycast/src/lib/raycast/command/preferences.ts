@@ -11,7 +11,19 @@ export type Preferences = {
     : string
 }
 
-// load preferences using Raycast's API
+// load preferences using Raycast's API with default fallback
 export function loadPreferences(): Preferences {
-  return getPreferenceValues<Preferences>()
+  const preferencesFromRaycast = getPreferenceValues<Partial<Preferences>>() // partial because not all keys may be set
+  const preferences = {} as Preferences
+
+  for (const pref of rawPreferences) {
+    const userValue = preferencesFromRaycast[pref.name] // user-provided value
+    const isEmptyString = userValue === '' // check if it's an empty string
+    preferences[pref.name as keyof Preferences] =
+      !isEmptyString && userValue !== undefined
+        ? userValue // use user-provided value
+        : (pref.default as Preferences[keyof Preferences]) // fallback to default
+  }
+
+  return preferences
 }

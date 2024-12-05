@@ -38,7 +38,7 @@
         },
         {
           "title": "Auto Paste Clipboard Contents",
-          "name": "autopaste",
+          "name": "autoPasteEnabled",
           "type": "checkbox",
           "label": "enabled?",
           "required": false,

@@ -1,16 +1,13 @@
-import { Clipboard, getPreferenceValues } from '@raycast/api'
+import { Clipboard } from '@raycast/api'
 import { useFetch } from '@raycast/utils'
 import { useEffect, useMemo, useState } from 'react'
 import { URLSearchParams } from 'node:url'
 import { parseResponse } from './http/response/parser'
-import { Preferences } from '../../lib/raycast/command/preferences'
-import packageJson from '../../../package.json'
+import { loadPreferences } from '../../lib/raycast/command/preferences'
 
 export const useSearchList = () => {
-  const preferences = getPreferenceValues<Preferences>()
-
-  const host = String(preferences.host || packageJson.commands[0].preferences[1].default)
-  const [query, setQuery] = useState<string>(preferences.defaultTerm)
+  const { host, defaultTerm, autoPasteEnabled, token } = loadPreferences()
+  const [query, setQuery] = useState<string>(defaultTerm)
 
   const createUrl = (host: string, query: string) =>
     `http://${host}/qs?${new URLSearchParams({ query: query.length === 0 ? 'Productivity Dashboard' : query })}`
@@ -20,7 +17,7 @@ export const useSearchList = () => {
   const { data, isLoading, error } = useFetch(url, {
     parseResponse,
     execute: Boolean(url),
-    headers: { Authorization: `Bearer ${preferences.token}` },
+    headers: { Authorization: `Bearer ${token}` },
   })
 
   useEffect(() => {
@@ -33,8 +30,8 @@ export const useSearchList = () => {
       }
     }
 
-    preferences.autopaste && autopaste()
-  }, [preferences.autopaste])
+    autoPasteEnabled && autopaste()
+  }, [autoPasteEnabled])
 
   console.debug({ url, query, data, isLoading, error })
 
